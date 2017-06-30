@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css" type="text/css" />
+
+    <title>Manifest for Over-the-Air Installation Editor</title>
+
+    <style>
+        body {
+            padding: 15px;
+        }
+    </style>
+
+    <script>
+        require('./app/main');
+    </script>
+
+</head>
+
+<body ng-app="MyApp" ng-controller="MyMainController as vm">
+    <div class="col-md-6">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">官方文档：</label>
+                <div class="col-sm-8">
+                    <p class="form-control-static">详情请参考<a href="http://help.apple.com/deployment/ios/#/apda0e3426d7"> http://help.apple.com/deployment/ios/#/apda0e3426d7 </a></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">应用标题：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="在这里输入应用标题" ng-model="vm.distributionManifestInformation.title" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">ipa 文件 URL：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="http://www.example.com/apps/foo.ipa" ng-model="vm.distributionManifestInformation.appURL" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">应用的 BundleID：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="com.example.HelloWorld" ng-model="vm.distributionManifestInformation.bundleID" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">用于显示的图片：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="http://www.example.com/image.57x57.png" ng-model="vm.distributionManifestInformation.displayImageURL" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">完整尺寸图片：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="http://www.example.com/image.512x512.png" ng-model="vm.distributionManifestInformation.fullSizeImageURL" />
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': vm.hasError()}">
+                <label class="col-sm-3 control-label">plist 文件 URL：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="https://www.example.com/distribution_manifest.plist" ng-model="vm.plistURL" />
+                    <span id="helpBlock2" class="help-block" ng-show="vm.hasError()">iOS 7 及 更高版本系统，Plist 文件的 URL 必须以 https:// 开头</span>
+                </div>
+            </div>
+            <div>
+                <pre>{{ vm.getPlistRefCode() }}</pre>
+            </div>
+        </form>
+    </div>
+
+    <pre>
+<code contenteditable="true"><span ng-repeat="item in vm.getTemplateAndDataArray()">{{ item.template }}<mark ng-if="!vm.isBeyondLastParam($index)"><strong>{{ item.param }}<span ng-if="!vm.isParamValid(item)">错误！！！此参数不能为空！！！</span></strong></mark></span></code>
+        </pre>
+</body>
+
+</html>
